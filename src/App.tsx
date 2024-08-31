@@ -7,6 +7,7 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "./components/ui/Carousel";
+import { AuroraBackground } from "./components/ui/aurora-background";
 
 function App() {
   // Array of random image URLs
@@ -20,27 +21,29 @@ function App() {
     <div className="App flex flex-col min-h-screen">
       <Header />
 
-      {/* Main content here */}
-      <main className="flex-grow">
-        <Carousel className="mt-8 mx-16">
-          <CarouselPrevious />
-          <CarouselContent>
-            {images.map((image, index) => (
-              <CarouselItem
-                key={index}
-                className="h-64 flex items-center justify-center"
-              >
-                <img
-                  src={image}
-                  alt={`Slide ${index + 1}`}
-                  className="object-cover w-full h-full"
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselNext />
-        </Carousel>
-      </main>
+      <AuroraBackground>
+        {/* Main content here */}
+        <main className="flex-grow ">
+          <Carousel className="mt-8 mx-16 ">
+            <CarouselPrevious />
+            <CarouselContent>
+              {images.map((image, index) => (
+                <CarouselItem
+                  key={index}
+                  className="h-[75vh] flex items-center justify-center"
+                >
+                  <img
+                    src={image}
+                    alt={`Slide ${index + 1}`}
+                    className="object-cover w-full h-full"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselNext />
+          </Carousel>
+        </main>
+      </AuroraBackground>
 
       <Footer />
     </div>
