@@ -13,20 +13,24 @@ export default function DashboardSideBar() {
 
   return (
     <div className="flex">
-      <aside className="h-dvh flex items-center sticky top-0 flex-col gap-3 p-3 shadow shadow-black">
+      <aside className="sticky top-0 flex h-dvh flex-col items-center gap-3 p-3 shadow shadow-black">
         <div>
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </div>
-        <ul className="mt-auto flex items-center flex-col gap-5">
-          <li className={`rounded-lg duration-300 hover:bg-gray-200 p-3 ${pathname === "/dashboard/posts" && "bg-gray-300"}`}>
+        <ul className="mt-auto flex flex-col items-center gap-5">
+          <li
+            className={`rounded-lg p-3 duration-300 hover:bg-gray-200 ${pathname === "/dashboard/posts" && "bg-gray-300"}`}
+          >
             <Link to={"/dashboard/posts"}>
               <MdOutlinePostAdd size={30} />
             </Link>
           </li>
-          <li className={`rounded-lg duration-300 hover:bg-gray-200 p-3 ${pathname === "/dashboard/users" && "bg-gray-300"}`}>
+          <li
+            className={`rounded-lg p-3 duration-300 hover:bg-gray-200 ${pathname === "/dashboard/users" && "bg-gray-300"}`}
+          >
             <Link to={"/dashboard/users"}>
               <HiUsers size={30} />
             </Link>

@@ -10,28 +10,14 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route
-          index
-          element={<Home />}
-        />
+        <Route index element={<Home />} />
         <Route element={<DashboardLayout />}>
-          <Route
-            path="/dashboard"
-            element={<Dashboard />}>
-            <Route
-              path="posts"
-              element={<Posts />}
-            />
-            <Route
-              path="users"
-              element={<Users />}
-            />
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="posts" element={<Posts />} />
+            <Route path="users" element={<Users />} />
           </Route>
         </Route>
-        <Route
-          path="*"
-          element={<ErrorPage />}
-        />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
   );

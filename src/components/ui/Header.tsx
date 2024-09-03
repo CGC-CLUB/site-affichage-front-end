@@ -2,8 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
 
 function Header() {
   return (
-    <header className="bg-white shadow-md py-4 sticky top-0 z-50">
-      <div className="container mx-auto flex justify-between items-center">
+    <header className="sticky top-0 z-50 bg-white py-4 shadow-md">
+      <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="text-xl font-bold text-gray-800">
           <a href="/">EduBoard</a>

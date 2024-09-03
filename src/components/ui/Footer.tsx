@@ -7,7 +7,7 @@ import {
 
 function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-8">
+    <footer className="bg-gray-800 py-8 text-white">
       <div className="container mx-auto flex flex-col items-center">
         {/* Logo or Site Name */}
         <div className="text-lg font-bold">
@@ -15,7 +15,7 @@ function Footer() {
         </div>
 
         {/* Social Media Icons */}
-        <div className="flex space-x-4 mt-4">
+        <div className="mt-4 flex space-x-4">
           <a href="#facebook" className="text-gray-400 hover:text-white">
             <FontAwesomeIcon icon={faFacebookF} />
           </a>
@@ -28,7 +28,7 @@ function Footer() {
         </div>
 
         {/* Copyright Information */}
-        <div className="text-center text-gray-500 mt-4">
+        <div className="mt-4 text-center text-gray-500">
           &copy; {new Date().getFullYear()} EduBoard. All rights reserved.
         </div>
       </div>

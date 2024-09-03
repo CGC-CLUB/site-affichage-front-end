@@ -1,5 +1,11 @@
 import { AuroraBackground } from "@/components/ui/aurora-background";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/Carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/Carousel";
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
 
@@ -11,23 +17,24 @@ export default function Home() {
   ];
 
   return (
-    <div className="App flex flex-col min-h-screen">
+    <div className="App flex min-h-screen flex-col">
       <Header />
 
       <AuroraBackground>
         {/* Main content here */}
-        <main className="flex-grow ">
-          <Carousel className="mt-8 mx-16 ">
+        <main className="flex-grow">
+          <Carousel className="mx-16 mt-8">
             <CarouselPrevious />
             <CarouselContent>
               {images.map((image, index) => (
                 <CarouselItem
                   key={index}
-                  className="h-[75vh] flex items-center justify-center">
+                  className="flex h-[75vh] items-center justify-center"
+                >
                   <img
                     src={image}
                     alt={`Slide ${index + 1}`}
-                    className="object-cover w-full h-full"
+                    className="h-full w-full object-cover"
                   />
                 </CarouselItem>
               ))}
