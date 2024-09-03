@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
 import DashboardLayout from "./layouts/DashboardLayout";
 import ErrorPage from "./pages/ErrorPage";
 import Posts from "./pages/dashboard/Posts";
@@ -12,10 +11,8 @@ function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route path="posts" element={<Posts />} />
-            <Route path="users" element={<Users />} />
-          </Route>
+          <Route path="/dashboard/posts" element={<Posts />} />
+          <Route path="/dashboard/users" element={<Users />} />
         </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>
