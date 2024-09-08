@@ -22,8 +22,8 @@ export default function DashboardSideBar() {
         <TbLayoutSidebarRightFilled size={30} />
       </button>
       <aside
-        data-is-expanded={!isExpanded}
-        className="sticky top-0 flex h-dvh w-[200px] flex-col items-start justify-start gap-3 bg-white p-3 shadow shadow-black duration-300 data-[is-expanded=true]:w-0 data-[is-expanded=true]:overflow-hidden data-[is-expanded=true]:p-0"
+        data-is-expanded={isExpanded}
+        className="sticky top-0 flex h-dvh w-[200px] flex-col items-start justify-start gap-3 bg-white p-3 shadow shadow-black duration-300 data-[is-expanded=false]:w-0 data-[is-expanded=false]:overflow-hidden data-[is-expanded=false]:p-0"
       >
         <div>
           {/* <Avatar>
