@@ -4,6 +4,7 @@ import { HiUsers } from "react-icons/hi";
 import { MdOutlinePostAdd, MdPerson } from "react-icons/md";
 import { Outlet } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
+import { FaPlaceOfWorship } from "react-icons/fa";
 
 export default function DashboardSideBar() {
   // future state
@@ -33,6 +34,13 @@ export default function DashboardSideBar() {
           >
             <Link to={"/dashboard/users"}>
               <HiUsers size={30} />
+            </Link>
+          </li>
+          <li
+            className={`rounded-lg p-3 duration-300 hover:bg-gray-200 ${pathname === "/dashboard/departments" && "bg-gray-300"}`}
+          >
+            <Link to={"/dashboard/departments"}>
+              <FaPlaceOfWorship size={30} />
             </Link>
           </li>
         </ul>
