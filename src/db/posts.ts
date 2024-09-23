@@ -1,4 +1,4 @@
-// this file is only for tesing purposes and does not included in the final version
+// this file is only for testing purposes and does not included in the final version
 
 import { Post } from "@/types";
 
