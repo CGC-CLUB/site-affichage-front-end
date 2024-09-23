@@ -6,8 +6,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/Carousel";
-import Footer from "@/components/ui/Footer";
-import Header from "@/components/ui/Header";
+import Footer from "@/layouts/Footer";
+import Header from "@/layouts/Header";
 import Autoplay from "embla-carousel-autoplay";
 
 export default function Home() {
