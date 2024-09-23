@@ -16,4 +16,5 @@ export type User = {
   password: string;
   createdAt: Date;
   updatedAt: Date;
+  validated: boolean;
 };

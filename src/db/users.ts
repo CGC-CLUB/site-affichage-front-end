@@ -2,7 +2,7 @@
 
 import { User } from "@/types";
 
-export const users:User[] = [
+export const users: User[] = [
   {
     id: 1,
     first_name: "John",
@@ -11,6 +11,7 @@ export const users:User[] = [
     password: "password",
     createdAt: new Date(),
     updatedAt: new Date(),
+    validated: false,
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ export const users:User[] = [
     password: "password",
     createdAt: new Date(),
     updatedAt: new Date(),
+    validated: true,
   },
   {
     id: 3,
@@ -29,5 +31,6 @@ export const users:User[] = [
     password: "password",
     createdAt: new Date(),
     updatedAt: new Date(),
+    validated: false,
   },
 ];
