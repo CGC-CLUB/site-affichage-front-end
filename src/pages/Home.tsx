@@ -19,6 +19,7 @@ export default function Home() {
         <main className="flex-grow">
           <Carousel
             plugins={[
+              // @ts-expect-error - i think its a type error
               Autoplay({
                 delay: 5000,
               }),
