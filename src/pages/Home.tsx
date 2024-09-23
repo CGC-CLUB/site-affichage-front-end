@@ -43,7 +43,6 @@ export default function Home() {
           </Carousel>
         </main>
       </AuroraBackground>
-
       <Footer />
     </div>
   );

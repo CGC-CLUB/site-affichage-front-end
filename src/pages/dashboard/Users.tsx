@@ -37,6 +37,10 @@ export default function Users() {
               <Label htmlFor="email">Email</Label>
               <Input id="email" className="border border-slate-400" />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="Password">Password</Label>
+              <Input id="Password" type="password" className="border border-slate-400" />
+            </div>
           </div>
           <DialogFooter>
             <Button type="submit">Save changes</Button>
