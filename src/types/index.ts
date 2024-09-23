@@ -18,3 +18,10 @@ export type User = {
   updatedAt: Date;
   validated: boolean;
 };
+
+export type Department = {
+  id: number;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
