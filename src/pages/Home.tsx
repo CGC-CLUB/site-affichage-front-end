@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/Carousel";
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function Home() {
   const images = [
@@ -23,7 +24,14 @@ export default function Home() {
       <AuroraBackground>
         {/* Main content here */}
         <main className="flex-grow">
-          <Carousel className="mx-16 mt-8">
+          <Carousel
+            plugins={[
+              Autoplay({
+                delay: 5000,
+              }),
+            ]}
+            className="mx-16 mt-8"
+          >
             <CarouselPrevious />
             <CarouselContent>
               {images.map((image, index) => (
