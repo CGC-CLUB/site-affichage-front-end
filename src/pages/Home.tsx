@@ -3,20 +3,13 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/Carousel";
+import { posts } from "@/db/posts";
 import Footer from "@/layouts/Footer";
 import Header from "@/layouts/Header";
 import Autoplay from "embla-carousel-autoplay";
 
 export default function Home() {
-  const images = [
-    "https://images.unsplash.com/photo-1594904351111-a072f80b1a71?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://plus.unsplash.com/premium_photo-1664300883378-b259442e132f?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://media.istockphoto.com/id/1459731685/fr/photo/gros-plan-de-jeunes-d%C3%A9veloppeuses-de-logiciels-asiatiques-utilisant-un-ordinateur-pour-%C3%A9crire.webp?a=1&b=1&s=612x612&w=0&k=20&c=sG1udqaRonsQwPhV7Qw0ZcSkQXSaele_RjriSuoq9dw=",
-  ];
-
   return (
     <div className="App flex min-h-screen flex-col">
       <Header />
@@ -32,22 +25,24 @@ export default function Home() {
             ]}
             className="mx-16 mt-8"
           >
-            <CarouselPrevious />
+            {/* <CarouselPrevious /> */}
             <CarouselContent>
-              {images.map((image, index) => (
+              {posts.map((post, index) => (
                 <CarouselItem
                   key={index}
                   className="flex h-[75vh] items-center justify-center"
                 >
-                  <img
-                    src={image}
-                    alt={`Slide ${index + 1}`}
-                    className="h-full w-full object-cover"
-                  />
+                  <div className="w-96 flex-1 space-y-10">
+                    <div className="flex items-center justify-between text-3xl">
+                      <h1>{post.user.first_name}</h1>
+                      <time>{post.createdAt.toLocaleDateString()}</time>
+                    </div>
+                    <p className="text-4xl font-bold">{post.content}</p>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselNext />
+            {/* <CarouselNext /> */}
           </Carousel>
         </main>
       </AuroraBackground>
