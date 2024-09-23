@@ -1,3 +1,4 @@
+import { headerLinks } from "@/constants";
 import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
 
 function Header() {
@@ -10,21 +11,13 @@ function Header() {
         </div>
         {/* Navigation */}
         <nav className="flex space-x-4">
-          <a href="#home" className="text-gray-600 hover:text-gray-900">
-            Home
-          </a>
-          <a href="#about" className="text-gray-600 hover:text-gray-900">
-            About
-          </a>
-          <a href="#contact" className="text-gray-600 hover:text-gray-900">
-            Contact
-          </a>
-          <a
-            href="/dashboard/posts"
-            className="text-gray-600 hover:text-gray-900"
-          >
-            Dashboard
-          </a>
+          {headerLinks.map((link) => {
+            return (
+              <a href={link.href} className="text-gray-600 hover:text-gray-900">
+                {link.name}
+              </a>
+            );
+          })}
         </nav>
         {/* User Profile Icon */}
         <div className="flex items-center space-x-2">
