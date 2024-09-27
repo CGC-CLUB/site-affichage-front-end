@@ -25,3 +25,7 @@ export type Department = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type ApolloResponse<T> = T extends { [K in keyof T]: T[K] }
+  ? T[keyof T]
+  : never;

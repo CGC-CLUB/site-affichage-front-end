@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { posts } from "@/db/posts";
+// import { posts } from "@/db/posts";
 import {
   Table,
   TableBody,
@@ -20,8 +20,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  GET_POSTS_FOR_DASHBOARD,
+  GetPostsForDashboardType,
+} from "@/api/graphql/queries";
+import { useQuery } from "@apollo/client";
+import { ApolloResponse } from "@/types";
+import { useState } from "react";
 
 export default function Posts() {
+  const [posts, setPosts] =
+    useState<ApolloResponse<GetPostsForDashboardType> | null>();
+  useQuery<GetPostsForDashboardType>(GET_POSTS_FOR_DASHBOARD, {
+    pollInterval: 20000,
+    onCompleted: (data) => {
+      setPosts(data.posts);
+      console.log(data);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
   return (
     <div>
       <Dialog>
@@ -58,12 +77,12 @@ export default function Posts() {
               <TableRow>
                 <TableHead className="w-[100px]">ID</TableHead>
                 <TableHead>Verified</TableHead>
-                <TableHead>Department</TableHead>
+                {/* <TableHead>Department</TableHead> */}
                 <TableHead>Content</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {posts.map((post) => (
+              {posts?.map((post) => (
                 <TableRow key={post.id}>
                   <TableCell>{post.id}</TableCell>
                   <TableCell>
@@ -71,7 +90,7 @@ export default function Posts() {
                       onChange={() => (post.validated = !post.validated)}
                     />
                   </TableCell>
-                  <TableCell>{post.department}</TableCell>
+                  {/* <TableCell>{post.department}</TableCell> */}
                   <TableCell>{post.content}</TableCell>
                 </TableRow>
               ))}
