@@ -2,10 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -71,7 +71,34 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      aurora: {
+        from: {
+          backgroundPosition: "50% 50%, 50% 50%",
+        },
+        to: {
+          backgroundPosition: "350% 50%, 350% 50%",
+        },
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [addVariablesForColors, require("tailwindcss-animate")],
+};
+
+function addVariablesForColors({ addBase, theme }) {
+  const allColors = theme("colors");
+  const newVars = {};
+
+  Object.entries(allColors).forEach(([colorName, colorValue]) => {
+    if (typeof colorValue === "string") {
+      newVars[`--${colorName}`] = colorValue;
+    } else if (typeof colorValue === "object" && colorValue !== null) {
+      Object.entries(colorValue).forEach(([shade, value]) => {
+        newVars[`--${colorName}-${shade}`] = value;
+      });
+    }
+  });
+
+  addBase({
+    ":root": newVars,
+  });
 }
