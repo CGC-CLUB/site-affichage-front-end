@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-// import { posts } from "@/db/posts";
 import {
   Table,
   TableBody,
@@ -24,13 +23,16 @@ import {
   GET_POSTS_FOR_DASHBOARD,
   GetPostsForDashboardType,
 } from "@/api/graphql/queries";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { ApolloResponse } from "@/types";
 import { useState } from "react";
+import { CREATE_POST, CreatePostType } from "@/api/graphql/mutations";
+import toast from "react-hot-toast";
 
 export default function Posts() {
   const [posts, setPosts] =
     useState<ApolloResponse<GetPostsForDashboardType> | null>();
+  const [newPostContent, setNewPostContent] = useState("");
   useQuery<GetPostsForDashboardType>(GET_POSTS_FOR_DASHBOARD, {
     pollInterval: 20000,
     onCompleted: (data) => {
@@ -39,6 +41,21 @@ export default function Posts() {
     },
     onError: (error) => {
       console.error(error);
+    },
+  });
+
+  const [createPost, { loading }] = useMutation<CreatePostType>(CREATE_POST, {
+    variables: {
+      content: newPostContent,
+    },
+    onCompleted: (data) => {
+      console.log(data);
+      // @ts-expect-error idk
+      setPosts((prev) => [...prev!, data.createPost]);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(error.message);
     },
   });
   return (
@@ -57,11 +74,22 @@ export default function Posts() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="post-content">Post</Label>
-              <Textarea id="post-content" className="border border-slate-400" />
+              <Textarea
+                id="post-content"
+                onChange={(e) => setNewPostContent(e.target.value)}
+                value={newPostContent}
+                className="border border-slate-400"
+              />
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Save changes</Button>
+            <Button
+              type="submit"
+              disabled={loading}
+              onClick={() => createPost()}
+            >
+              Add
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

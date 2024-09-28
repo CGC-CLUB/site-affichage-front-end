@@ -73,7 +73,7 @@ export default function Users() {
       </Dialog>
 
       {/* main content */}
-      <div className="flex w-[80dvw] flex-col gap-4">
+      <div className="flex flex-col w-[80dvw] gap-4">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">Users</h2>
