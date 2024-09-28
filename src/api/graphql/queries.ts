@@ -67,6 +67,7 @@ export const GET_USERS = gql`
       first_name
       family_name
       email
+      validated
     }
   }
 `;
@@ -77,6 +78,7 @@ export type GetUsersType = {
     first_name: string;
     family_name: string;
     email: string;
+    validated: boolean;
   }[];
 };
 
