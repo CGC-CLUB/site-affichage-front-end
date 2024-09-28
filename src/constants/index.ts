@@ -39,7 +39,7 @@ export const headerLinks = [
     href: "/dashboard/users",
   },
   {
-    name: "Department",
+    name: "Dashboard",
     href: "/dashboard/posts",
   },
 ];

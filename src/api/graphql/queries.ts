@@ -10,6 +10,7 @@ export const GET_POSTS = gql`
       author {
         id
         first_name
+        role
       }
     }
   }
@@ -24,6 +25,7 @@ export type GetPostsType = {
     author: {
       id: string;
       first_name: string;
+      role:string
     };
   }[];
 };

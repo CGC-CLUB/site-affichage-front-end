@@ -12,6 +12,7 @@ import { ApolloResponse } from "@/types";
 import { useQuery } from "@apollo/client";
 import Autoplay from "embla-carousel-autoplay";
 import { useState } from "react";
+import { FaCircleUser } from "react-icons/fa6";
 
 export default function Home() {
   const [posts, setPosts] = useState<ApolloResponse<GetPostsType> | null>();
@@ -26,7 +27,7 @@ export default function Home() {
     },
   });
   return (
-    <div className="App flex min-h-screen flex-col">
+    <div className="App flex min-h-screen flex-col overflow-hidden">
       <Header />
 
       <AuroraBackground>
@@ -36,7 +37,7 @@ export default function Home() {
             plugins={[
               // @ts-expect-error - i think its a type error
               Autoplay({
-                delay: 5000,
+                delay: 10000,
               }),
             ]}
             className="mx-16 mt-8"
@@ -49,12 +50,23 @@ export default function Home() {
                     key={post.id}
                     className="flex h-[75vh] items-center justify-center"
                   >
-                    <div className="w-96 flex-1 space-y-10">
-                      <div className="flex items-center justify-between text-3xl">
-                        <h1>{post.author.first_name}</h1>
-                        <time>{post.createdAt.slice(0, 10)}</time>
-                      </div>
-                      <p className="text-4xl font-bold">{post.content}</p>
+                    <div className="w-[1500px] space-y-10">
+                      <h1 className="flex items-center gap-3 text-3xl font-semibold">
+                        <span>
+                          {post.author.role === "ADMIN" ? (
+                            <FaCircleUser size={30} />
+                          ) : (
+                            ""
+                          )}
+                        </span>
+                        {post.author.first_name} {"    "}
+                      </h1>
+                      <p className="text-center text-5xl font-bold leading-[1.4]">
+                        {post.content}
+                      </p>
+                      <time className="ml-[1200px] block text-4xl font-semibold">
+                        {post.createdAt.slice(0, 10).replaceAll("-", "/")}
+                      </time>
                     </div>
                   </CarouselItem>
                 ))}
