@@ -1,6 +1,5 @@
 import { headerLinks } from "@/constants";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
-// this may show error but the implimentation is ok
 
 function Header() {
   return (
