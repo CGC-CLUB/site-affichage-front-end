@@ -25,7 +25,7 @@ export type GetPostsType = {
     author: {
       id: string;
       first_name: string;
-      role:string
+      role: string;
     };
   }[];
 };
@@ -98,4 +98,24 @@ export type GetDepartmentsType = {
     id: string;
     name: string;
   }[];
+};
+
+export const ME = gql`
+  query Me {
+    me {
+      id
+      first_name
+      family_name
+      email
+    }
+  }
+`;
+
+export type MeType = {
+  me: {
+    id: string;
+    first_name: string;
+    family_name: string;
+    email: string;
+  };
 };

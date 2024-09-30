@@ -1,5 +1,5 @@
-import { headerLinks } from "@/constants";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
+import { headerLinks } from "@/constants";
 
 function Header() {
   return (

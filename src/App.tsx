@@ -5,8 +5,12 @@ import ErrorPage from "./pages/ErrorPage";
 import Posts from "./pages/dashboard/Posts";
 import Users from "./pages/dashboard/Users";
 import Department from "./pages/dashboard/Department";
+import Login from "./pages/Login";
+import { useUser } from "./store/useUser";
 
 function App() {
+  const { user } = useUser();
+  console.log(user);
   return (
     <div>
       <Routes>
@@ -16,6 +20,7 @@ function App() {
           <Route path="/dashboard/users" element={<Users />} />
           <Route path="/dashboard/departments" element={<Department />} />
         </Route>
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
