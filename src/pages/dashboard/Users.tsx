@@ -19,18 +19,49 @@ import {
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_USERS, GetUsersType } from "@/api/graphql/queries";
 import { ApolloResponse } from "@/types";
+import { CREATE_NEW_USER, CreateNewUserType } from "@/api/graphql/mutations";
+import toast from "react-hot-toast";
 
 export default function Users() {
   const [users, setUsers] = useState<ApolloResponse<GetUsersType> | null>();
+  const [newUser, setNewUser] = useState({
+    first_name: "",
+    family_name: "",
+    email: "",
+    password: "",
+  });
+
   useQuery<GetUsersType>(GET_USERS, {
     onCompleted: (data) => {
       console.log(data);
       setUsers(data.users);
     },
   });
+
+  const [createNewUser, { loading }] = useMutation<CreateNewUserType>(
+    CREATE_NEW_USER,
+    {
+      variables: {
+        first_name: newUser.first_name,
+        family_name: newUser.family_name,
+        email: newUser.email,
+        password: newUser.password,
+      },
+      onCompleted: (data) => {
+        console.log(data);
+        setUsers((prev) => [...prev!, data.createUser]);
+        toast.success(`User created`);
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error(error.message);
+      },
+    },
+  );
+
   return (
     <div>
       <Dialog>
@@ -47,15 +78,39 @@ export default function Users() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="first_name">First Name</Label>
-              <Input id="last_name" className="border border-slate-400" />
+              <Input
+                id="last_name"
+                onChange={(e) =>
+                  setNewUser((prev) => ({
+                    ...prev,
+                    first_name: e.target.value,
+                  }))
+                }
+                className="border border-slate-400"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="last_name">Last Name</Label>
-              <Input id="last_name" className="border border-slate-400" />
+              <Input
+                id="last_name"
+                onChange={(e) =>
+                  setNewUser((prev) => ({
+                    ...prev,
+                    family_name: e.target.value,
+                  }))
+                }
+                className="border border-slate-400"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" className="border border-slate-400" />
+              <Input
+                id="email"
+                onChange={(e) =>
+                  setNewUser((prev) => ({ ...prev, email: e.target.value }))
+                }
+                className="border border-slate-400"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="Password">Password</Label>
@@ -63,17 +118,22 @@ export default function Users() {
                 id="Password"
                 type="password"
                 className="border border-slate-400"
+                onChange={(e) =>
+                  setNewUser((prev) => ({ ...prev, password: e.target.value }))
+                }
               />
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Save changes</Button>
+            <Button disabled={loading} onClick={() => createNewUser()}>
+              Add
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
       {/* main content */}
-      <div className="flex flex-col w-[80dvw] gap-4">
+      <div className="flex w-[80dvw] flex-col gap-4">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">Users</h2>

@@ -168,7 +168,7 @@ export default function Posts() {
                 name="department"
                 id="department"
               >
-                <option value="" disabled>Select a department</option>
+                <option value="" selected disabled>Select a department</option>
                 {departments?.map((department) => (
                   <option key={department.id} value={department.id}>
                     {department.name}

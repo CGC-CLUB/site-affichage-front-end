@@ -76,3 +76,38 @@ export type InvalidatePostType = {
     validated: boolean;
   };
 };
+
+export const CREATE_NEW_USER = gql`
+  mutation CreateUser(
+    $first_name: String!
+    $family_name: String!
+    $email: String!
+    $password: String!
+  ) {
+    createUser(
+      input: {
+        first_name: $first_name
+        family_name: $family_name
+        email: $email
+        password: $password
+        role: USER
+      }
+    ) {
+      id
+      first_name
+      family_name
+      email
+      validated
+    }
+  }
+`;
+
+export type CreateNewUserType = {
+  createUser: {
+    id: string;
+    first_name: string;
+    family_name: string;
+    email: string;
+    validated: boolean;
+  };
+};
