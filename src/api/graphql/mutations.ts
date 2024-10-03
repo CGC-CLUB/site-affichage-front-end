@@ -1,11 +1,18 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_POST = gql`
-  mutation createPost($content: String!) {
-    createPost(input: { content: $content }) {
-      id
+  mutation createPost($content: String!, $department: String!) {
+    createPost(input: { content: $content, departmentId: $department }) {
       content
+      id
       validated
+      author {
+        family_name
+      }
+      createdAt
+      department {
+        name
+      }
     }
   }
 `;
@@ -35,5 +42,37 @@ export type LoginType = {
     family_name: string;
     email: string;
     id: string;
+  };
+};
+
+export const VALIDATE_POST = gql`
+  mutation validatePost($id: ID!) {
+    validatePost(input: { id: $id }) {
+      id
+      validated
+    }
+  }
+`;
+
+export type ValidatePostType = {
+  validatePost: {
+    id: string;
+    validated: boolean;
+  };
+};
+
+export const INVALIDATE_POST = gql`
+  mutation invalidatePost($id: ID!) {
+    invalidatePost(input: { id: $id }) {
+      id
+      validated
+    }
+  }
+`;
+
+export type InvalidatePostType = {
+  invalidatePost: {
+    id: string;
+    validated: boolean;
   };
 };

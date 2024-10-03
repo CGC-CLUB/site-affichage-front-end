@@ -33,15 +33,15 @@ export type GetPostsType = {
 export const GET_POSTS_FOR_DASHBOARD = gql`
   query GetPostsForDashboard {
     posts {
-      id
       content
-      updatedAt
-      createdAt
+      id
       validated
       author {
-        id
-        first_name
         family_name
+      }
+      createdAt
+      department {
+        name
       }
     }
   }
@@ -55,9 +55,10 @@ export type GetPostsForDashboardType = {
     createdAt: string;
     validated: boolean;
     author: {
-      id: string;
-      first_name: string;
       family_name: string;
+    };
+    department: {
+      name: string;
     };
   }[];
 };

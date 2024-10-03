@@ -20,19 +20,32 @@ import {
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  GET_DEPARTMENTS,
   GET_POSTS_FOR_DASHBOARD,
+  GetDepartmentsType,
   GetPostsForDashboardType,
 } from "@/api/graphql/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { ApolloResponse } from "@/types";
 import { useState } from "react";
-import { CREATE_POST, CreatePostType } from "@/api/graphql/mutations";
+import {
+  CREATE_POST,
+  CreatePostType,
+  INVALIDATE_POST,
+  InvalidatePostType,
+  VALIDATE_POST,
+  ValidatePostType,
+} from "@/api/graphql/mutations";
 import toast from "react-hot-toast";
 
 export default function Posts() {
   const [posts, setPosts] =
     useState<ApolloResponse<GetPostsForDashboardType> | null>();
   const [newPostContent, setNewPostContent] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [departments, setDepartments] =
+    useState<ApolloResponse<GetDepartmentsType> | null>();
+
   useQuery<GetPostsForDashboardType>(GET_POSTS_FOR_DASHBOARD, {
     pollInterval: 20000,
     onCompleted: (data) => {
@@ -44,9 +57,17 @@ export default function Posts() {
     },
   });
 
+  useQuery<GetDepartmentsType>(GET_DEPARTMENTS, {
+    onCompleted: (data) => {
+      setDepartments(data.departments);
+    },
+  });
+
   const [createPost, { loading }] = useMutation<CreatePostType>(CREATE_POST, {
     variables: {
       content: newPostContent,
+      department: selectedDepartment,
+      image: "   ",
     },
     onCompleted: (data) => {
       console.log(data);
@@ -58,6 +79,63 @@ export default function Posts() {
       toast.error(error.message);
     },
   });
+
+  const [validatePost, { loading: validating }] = useMutation<ValidatePostType>(
+    VALIDATE_POST,
+    {
+      onCompleted: (data) => {
+        console.log(data);
+        const UpdatedPostId = data.validatePost.id;
+        const updatedPosts = posts?.map((post) => {
+          if (post.id === UpdatedPostId) {
+            return {
+              ...post,
+              validated: true,
+            };
+          }
+          return post;
+        });
+        setPosts(updatedPosts);
+        toast.success("Post Validated");
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error(error.message);
+      },
+    },
+  );
+
+  const [invalidatePost, { loading: invalidating }] =
+    useMutation<InvalidatePostType>(INVALIDATE_POST, {
+      onCompleted: (data) => {
+        console.log(data);
+        const UpdatedPostId = data.invalidatePost.id;
+        const updatedPosts = posts?.map((post) => {
+          if (post.id === UpdatedPostId) {
+            return {
+              ...post,
+              validated: false,
+            };
+          }
+          return post;
+        });
+        setPosts(updatedPosts);
+        toast.success("Post Invalidated");
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error(error.message);
+      },
+    });
+
+  const validateOrInvalidatePost = (id: string, validated: boolean) => {
+    if (validated) {
+      validatePost({ variables: { id } });
+    } else {
+      invalidatePost({ variables: { id } });
+    }
+  };
+
   return (
     <div>
       <Dialog>
@@ -80,6 +158,23 @@ export default function Posts() {
                 value={newPostContent}
                 className="border border-slate-400"
               />
+            </div>
+            <div>
+              <select
+                onChange={(e) => {
+                  setSelectedDepartment(e.target.value);
+                  console.log(e.target.value);
+                }}
+                name="department"
+                id="department"
+              >
+                <option value="" disabled>Select a department</option>
+                {departments?.map((department) => (
+                  <option key={department.id} value={department.id}>
+                    {department.name}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           <DialogFooter>
@@ -105,8 +200,9 @@ export default function Posts() {
               <TableRow>
                 <TableHead className="w-[100px]">ID</TableHead>
                 <TableHead>Verified</TableHead>
-                {/* <TableHead>Department</TableHead> */}
+                <TableHead>Department Name</TableHead>
                 <TableHead>Content</TableHead>
+                <TableHead>Author</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -115,11 +211,16 @@ export default function Posts() {
                   <TableCell>{post.id}</TableCell>
                   <TableCell>
                     <Checkbox
-                      onChange={() => (post.validated = !post.validated)}
+                      checked={post.validated}
+                      disabled={validating || invalidating}
+                      onCheckedChange={() =>
+                        validateOrInvalidatePost(post.id, !post.validated)
+                      }
                     />
                   </TableCell>
-                  {/* <TableCell>{post.department}</TableCell> */}
+                  <TableCell>{post.department.name}</TableCell>
                   <TableCell>{post.content}</TableCell>
+                  <TableCell>{post.author.family_name}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
