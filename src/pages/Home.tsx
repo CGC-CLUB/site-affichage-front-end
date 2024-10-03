@@ -12,10 +12,12 @@ import { ApolloResponse } from "@/types";
 import { useQuery } from "@apollo/client";
 import Autoplay from "embla-carousel-autoplay";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FaCircleUser } from "react-icons/fa6";
 
 export default function Home() {
   const [posts, setPosts] = useState<ApolloResponse<GetPostsType> | null>();
+
   useQuery<GetPostsType>(GET_POSTS, {
     pollInterval: 20000,
     onCompleted: (data) => {
@@ -24,6 +26,7 @@ export default function Home() {
     },
     onError: (error) => {
       console.error(error);
+      toast.error("Something went wrong!");
     },
   });
   return (
