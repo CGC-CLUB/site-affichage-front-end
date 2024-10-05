@@ -21,11 +21,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_USERS } from "@/api/graphql/queries";
-import { CREATE_NEW_USER, VALIDATE_USER } from "@/api/graphql/mutations";
+import {
+  CREATE_NEW_USER,
+  INVALIDATE_USER,
+  VALIDATE_USER,
+} from "@/api/graphql/mutations";
 import toast from "react-hot-toast";
 import {
   CreateUserMutation,
   GetUsersQuery,
+  InvalidateUserMutation,
   ValidateUserMutation,
 } from "@/api/graphql/types";
 
@@ -90,21 +95,21 @@ export default function Users() {
     },
   );
   const [invalidateUser, { loading: invalidating }] =
-    useMutation<ValidateUserMutation>(VALIDATE_USER, {
+    useMutation<InvalidateUserMutation>(INVALIDATE_USER, {
       onCompleted: (data) => {
         console.log(data);
-        const UpdatedUserId = data?.validateUser?.id;
+        const UpdatedUserId = data?.invalidateUser?.id;
         const updatedUsers = users?.map((user) => {
           if (user && user.id === UpdatedUserId) {
             return {
               ...user,
-              validated: true,
+              validated: false,
             };
           }
           return user;
         });
         setUsers(updatedUsers);
-        toast.success("User Validated");
+        toast.success("User InValidated");
       },
       onError: (error) => {
         console.error(error);
@@ -213,13 +218,15 @@ export default function Users() {
                     <TableCell>{user?.id}</TableCell>
                     <TableCell>
                       <Checkbox
-                        checked={user?.validated || false}
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                        checked={user?.validated!}
                         disabled={validating || invalidating}
                         onCheckedChange={() =>
                           validateOrInvalidateUser(
                             // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
                             user?.id!,
-                            !user?.validated || false,
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                            !user?.validated!,
                           )
                         }
                       />
