@@ -382,3 +382,21 @@ export type MeQuery = {
     email?: string | null;
   } | null;
 };
+
+export type GetDepartmentForDashboardQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetDepartmentForDashboardQuery = {
+  __typename?: "Query";
+  departments?: Array<{
+    __typename?: "Department";
+    id: string;
+    name?: string | null;
+    chef?: {
+      __typename?: "User";
+      first_name?: string | null;
+      id: string;
+    } | null;
+  } | null> | null;
+};

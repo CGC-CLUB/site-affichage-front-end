@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { departments } from "@/db/departements";
 import {
   Table,
   TableBody,
@@ -18,8 +17,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { GetDepartmentForDashboardQuery } from "@/api/graphql/types";
+import { useQuery } from "@apollo/client";
+import { GET_DEPARTMENT_FOR_DASHBOARD } from "@/api/graphql/queries";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Department() {
+  const [departments, setDepartments] =
+    useState<GetDepartmentForDashboardQuery["departments"]>();
+
+  useQuery<GetDepartmentForDashboardQuery>(GET_DEPARTMENT_FOR_DASHBOARD, {
+    onCompleted: (data) => {
+      console.log(data);
+      setDepartments(data.departments);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(error.message);
+    },
+  });
   return (
     <div>
       <Dialog>
@@ -71,11 +88,11 @@ export default function Department() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {departments.map((department) => (
-                <TableRow key={department.id}>
-                  <TableCell>{department.id}</TableCell>
-                  <TableCell>{department.name}</TableCell>
-                  <TableCell>PlaceHolder</TableCell>
+              {departments?.map((department) => (
+                <TableRow key={department?.id}>
+                  <TableCell>{department?.id}</TableCell>
+                  <TableCell>{department?.name}</TableCell>
+                  <TableCell>{department?.chef?.first_name}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

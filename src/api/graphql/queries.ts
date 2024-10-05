@@ -64,3 +64,16 @@ export const ME = gql`
     }
   }
 `;
+
+export const GET_DEPARTMENT_FOR_DASHBOARD = gql`
+  query GetDepartmentForDashboard {
+    departments {
+      chef {
+        first_name
+        id
+      }
+      id
+      name
+    }
+  }
+`;
