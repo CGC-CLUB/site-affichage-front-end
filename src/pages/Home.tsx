@@ -14,11 +14,16 @@ import Autoplay from "embla-carousel-autoplay";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaCircleUser } from "react-icons/fa6";
+import { useSearchParams } from "react-router-dom";
 
 export default function Home() {
   const [posts, setPosts] = useState<GetPostsQuery["posts"] | null>();
+  const [searchParams] = useSearchParams();
 
   useQuery<GetPostsQuery>(GET_POSTS, {
+    variables: {
+      departmentId: searchParams.get("departmentId"),
+    },
     pollInterval: 20000,
     onCompleted: (data) => {
       setPosts(data.posts);

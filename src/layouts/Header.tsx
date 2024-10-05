@@ -1,5 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 import { headerLinks } from "@/constants";
+import { HiLogin } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -21,10 +22,9 @@ function Header() {
         </nav>
         {/* User Profile Icon */}
         <div className="flex items-center space-x-2">
-          <Avatar>
-            <AvatarImage src="https://scontent.fcfk1-1.fna.fbcdn.net/v/t1.15752-9/426053811_751360690265526_6086854460049802454_n.jpg?stp=dst-jpg_s100x100&_nc_cat=104&ccb=1-7&_nc_sid=b70caf&_nc_eui2=AeFdmmnFThn2SpPFUetBZUlrImw6HoGy3iQibDoegbLeJMfiVi8dxSHsOCHxmx9ijnQL6cp3L_Z1B0F1UnlF_U1K&_nc_ohc=E4WF8iJyG2sQ7kNvgFRuBJo&_nc_ht=scontent.fcfk1-1.fna&_nc_gid=AXKFlKYzxcC9AG4cSgW_OPI&oh=03_Q7cD1QFwe3-n-h_mhbuPtGvfbOFpkezx30R8-_ZRlFvxEEX3zw&oe=671FEA0F" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <Link to='/login-tv'>
+          <HiLogin size={30} />
+          </Link>
         </div>
       </div>
     </header>

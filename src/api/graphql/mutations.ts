@@ -87,3 +87,17 @@ export const INVALIDATE_USER = gql`
     }
   }
 `;
+
+export const LOGIN_AS_TV = gql`
+  mutation LoginTv($name: String!, $password: String!) {
+    loginTv(input: { name: $name, password: $password }) {
+      department {
+        createdAt
+        id
+        name
+      }
+      id
+      name
+    }
+  }
+`;

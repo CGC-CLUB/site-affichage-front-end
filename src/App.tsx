@@ -7,6 +7,7 @@ import Users from "./pages/dashboard/Users";
 import Department from "./pages/dashboard/Department";
 import Login from "./pages/Login";
 import { useUser } from "./store/useUser";
+import LoginTv from "./pages/LoginTv";
 
 function App() {
   const { user } = useUser();
@@ -21,6 +22,8 @@ function App() {
           <Route path="/dashboard/departments" element={<Department />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/login-tv" element={<LoginTv />} />
+
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
