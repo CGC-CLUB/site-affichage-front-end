@@ -21,9 +21,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_USERS } from "@/api/graphql/queries";
-import { CREATE_NEW_USER } from "@/api/graphql/mutations";
+import { CREATE_NEW_USER, VALIDATE_USER } from "@/api/graphql/mutations";
 import toast from "react-hot-toast";
-import { CreateUserMutation, GetUsersQuery } from "@/api/graphql/types";
+import {
+  CreateUserMutation,
+  GetUsersQuery,
+  ValidateUserMutation,
+} from "@/api/graphql/types";
 
 export default function Users() {
   const [users, setUsers] = useState<GetUsersQuery["users"] | null>();
@@ -40,6 +44,29 @@ export default function Users() {
       setUsers(data.users);
     },
   });
+
+  const [validateUser, { loading: validating }] =
+    useMutation<ValidateUserMutation>(VALIDATE_USER, {
+      onCompleted: (data) => {
+        console.log(data);
+        const UpdatedUserId = data?.validateUser?.id;
+        const updatedUsers = users?.map((user) => {
+          if (user && user.id === UpdatedUserId) {
+            return {
+              ...user,
+              validated: true,
+            };
+          }
+          return user;
+        });
+        setUsers(updatedUsers);
+        toast.success("User Validated");
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error(error.message);
+      },
+    });
 
   const [createNewUser, { loading }] = useMutation<CreateUserMutation>(
     CREATE_NEW_USER,
@@ -62,6 +89,36 @@ export default function Users() {
       },
     },
   );
+  const [invalidateUser, { loading: invalidating }] =
+    useMutation<ValidateUserMutation>(VALIDATE_USER, {
+      onCompleted: (data) => {
+        console.log(data);
+        const UpdatedUserId = data?.validateUser?.id;
+        const updatedUsers = users?.map((user) => {
+          if (user && user.id === UpdatedUserId) {
+            return {
+              ...user,
+              validated: true,
+            };
+          }
+          return user;
+        });
+        setUsers(updatedUsers);
+        toast.success("User Validated");
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error(error.message);
+      },
+    });
+
+  function validateOrInvalidateUser(id: string, validated: boolean) {
+    if (validated) {
+      validateUser({ variables: { id } });
+    } else {
+      invalidateUser({ variables: { id } });
+    }
+  }
 
   return (
     <div>
@@ -157,8 +214,14 @@ export default function Users() {
                     <TableCell>
                       <Checkbox
                         checked={user?.validated || false}
-
-                        // onChange={() => (user?.validated! = !user?.validated!)}
+                        disabled={validating || invalidating}
+                        onCheckedChange={() =>
+                          validateOrInvalidateUser(
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                            user?.id!,
+                            !user?.validated || false,
+                          )
+                        }
                       />
                     </TableCell>
                     <TableCell>{user?.first_name}</TableCell>

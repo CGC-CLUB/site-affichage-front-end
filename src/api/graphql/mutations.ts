@@ -71,3 +71,19 @@ export const CREATE_NEW_USER = gql`
     }
   }
 `;
+
+export const VALIDATE_USER = gql`
+  mutation ValidateUser($id: ID!) {
+    validateUser(input: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const INVALIDATE_USER = gql`
+  mutation InvalidateUser($id: ID!) {
+    invalidateUser(input: { id: $id }) {
+      id
+    }
+  }
+`;
