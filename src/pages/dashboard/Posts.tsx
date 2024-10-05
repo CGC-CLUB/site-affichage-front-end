@@ -56,12 +56,17 @@ export default function Posts() {
     },
     onError: (error) => {
       console.error(error);
+      toast.error("failed to fetch posts");
     },
   });
 
   useQuery<GetDepartmentsQuery>(GET_DEPARTMENTS, {
     onCompleted: (data) => {
       setDepartments(data.departments);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("failed to fetch departments");
     },
   });
 

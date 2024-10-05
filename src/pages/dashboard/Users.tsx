@@ -48,6 +48,10 @@ export default function Users() {
       console.log(data);
       setUsers(data.users);
     },
+    onError: (error) => {
+      console.error(error);
+      toast.error("failed to fetch users");
+    },
   });
 
   const [validateUser, { loading: validating }] =
