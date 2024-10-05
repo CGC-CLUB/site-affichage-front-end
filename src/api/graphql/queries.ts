@@ -16,20 +16,6 @@ export const GET_POSTS = gql`
   }
 `;
 
-export type GetPostsType = {
-  posts: {
-    id: string;
-    content: string;
-    updatedAt: string;
-    createdAt: string;
-    author: {
-      id: string;
-      first_name: string;
-      role: string;
-    };
-  }[];
-};
-
 export const GET_POSTS_FOR_DASHBOARD = gql`
   query GetPostsForDashboard {
     posts {
@@ -47,22 +33,6 @@ export const GET_POSTS_FOR_DASHBOARD = gql`
   }
 `;
 
-export type GetPostsForDashboardType = {
-  posts: {
-    id: string;
-    content: string;
-    updatedAt: string;
-    createdAt: string;
-    validated: boolean;
-    author: {
-      family_name: string;
-    };
-    department: {
-      name: string;
-    };
-  }[];
-};
-
 export const GET_USERS = gql`
   query GetUsers {
     users {
@@ -75,16 +45,6 @@ export const GET_USERS = gql`
   }
 `;
 
-export type GetUsersType = {
-  users: {
-    id: string;
-    first_name: string;
-    family_name: string;
-    email: string;
-    validated: boolean;
-  }[];
-};
-
 export const GET_DEPARTMENTS = gql`
   query GetDepartments {
     departments {
@@ -93,13 +53,6 @@ export const GET_DEPARTMENTS = gql`
     }
   }
 `;
-
-export type GetDepartmentsType = {
-  departments: {
-    id: string;
-    name: string;
-  }[];
-};
 
 export const ME = gql`
   query Me {
@@ -111,12 +64,3 @@ export const ME = gql`
     }
   }
 `;
-
-export type MeType = {
-  me: {
-    id: string;
-    first_name: string;
-    family_name: string;
-    email: string;
-  };
-};

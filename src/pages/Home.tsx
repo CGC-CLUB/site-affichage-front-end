@@ -1,4 +1,5 @@
-import { GET_POSTS, GetPostsType } from "@/api/graphql/queries";
+import { GET_POSTS } from "@/api/graphql/queries";
+import { GetPostsQuery } from "@/api/graphql/types";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import {
   Carousel,
@@ -8,7 +9,6 @@ import {
 // import { posts } from "@/db/posts";
 import Footer from "@/layouts/Footer";
 import Header from "@/layouts/Header";
-import { ApolloResponse } from "@/types";
 import { useQuery } from "@apollo/client";
 import Autoplay from "embla-carousel-autoplay";
 import { useState } from "react";
@@ -16,9 +16,9 @@ import toast from "react-hot-toast";
 import { FaCircleUser } from "react-icons/fa6";
 
 export default function Home() {
-  const [posts, setPosts] = useState<ApolloResponse<GetPostsType> | null>();
+  const [posts, setPosts] = useState<GetPostsQuery["posts"] | null>();
 
-  useQuery<GetPostsType>(GET_POSTS, {
+  useQuery<GetPostsQuery>(GET_POSTS, {
     pollInterval: 20000,
     onCompleted: (data) => {
       setPosts(data.posts);
@@ -50,25 +50,27 @@ export default function Home() {
               {posts &&
                 posts?.map((post) => (
                   <CarouselItem
-                    key={post.id}
+                    key={post?.id}
                     className="flex h-[75vh] items-center justify-center"
                   >
                     <div className="w-[1500px] space-y-10">
                       <h1 className="flex items-center gap-3 text-3xl font-semibold">
                         <span>
-                          {post.author.role === "ADMIN" ? (
+                          {post?.author?.role === "ADMIN" ? (
                             <FaCircleUser size={30} />
                           ) : (
                             ""
                           )}
                         </span>
-                        {post.author.first_name} {"    "}
+                        {post?.author?.first_name} {"    "}
                       </h1>
                       <p className="text-center text-5xl font-bold leading-[1.4]">
-                        {post.content}
+                        {post?.content}
                       </p>
                       <time className="ml-[1200px] block text-4xl font-semibold">
-                        {post.createdAt.slice(0, 10).replaceAll("-", "/")}
+                        {(post?.createdAt as unknown as string)
+                          ?.slice(0, 10)
+                          .replaceAll("-", "/")}
                       </time>
                     </div>
                   </CarouselItem>

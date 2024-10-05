@@ -17,14 +17,6 @@ export const CREATE_POST = gql`
   }
 `;
 
-export type CreatePostType = {
-  createPost: {
-    id: string;
-    content: string;
-    validated: boolean;
-  };
-};
-
 export const LOGIN = gql`
   mutation login($email: String!, $password: String!) {
     login(input: { email: $email, password: $password }) {
@@ -36,15 +28,6 @@ export const LOGIN = gql`
   }
 `;
 
-export type LoginType = {
-  login: {
-    first_name: string;
-    family_name: string;
-    email: string;
-    id: string;
-  };
-};
-
 export const VALIDATE_POST = gql`
   mutation validatePost($id: ID!) {
     validatePost(input: { id: $id }) {
@@ -53,13 +36,6 @@ export const VALIDATE_POST = gql`
     }
   }
 `;
-
-export type ValidatePostType = {
-  validatePost: {
-    id: string;
-    validated: boolean;
-  };
-};
 
 export const INVALIDATE_POST = gql`
   mutation invalidatePost($id: ID!) {
@@ -70,14 +46,8 @@ export const INVALIDATE_POST = gql`
   }
 `;
 
-export type InvalidatePostType = {
-  invalidatePost: {
-    id: string;
-    validated: boolean;
-  };
-};
-
 export const CREATE_NEW_USER = gql`
+  #graphql
   mutation CreateUser(
     $first_name: String!
     $family_name: String!
@@ -101,13 +71,3 @@ export const CREATE_NEW_USER = gql`
     }
   }
 `;
-
-export type CreateNewUserType = {
-  createUser: {
-    id: string;
-    first_name: string;
-    family_name: string;
-    email: string;
-    validated: boolean;
-  };
-};

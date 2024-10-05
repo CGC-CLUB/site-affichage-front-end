@@ -3,10 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { LOGIN, type LoginType } from "@/api/graphql/mutations";
+import { LOGIN } from "@/api/graphql/mutations";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/store/useUser";
+import { LoginMutation } from "@/api/graphql/types";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ export default function Login() {
     navigation("/dashboard/posts");
   }
 
-  const [mutateFunction, { loading }] = useMutation<LoginType>(LOGIN, {
+  const [mutateFunction, { loading }] = useMutation<LoginMutation>(LOGIN, {
     variables: {
       email,
       password,

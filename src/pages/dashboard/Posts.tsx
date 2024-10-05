@@ -22,31 +22,34 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   GET_DEPARTMENTS,
   GET_POSTS_FOR_DASHBOARD,
-  GetDepartmentsType,
-  GetPostsForDashboardType,
 } from "@/api/graphql/queries";
 import { useMutation, useQuery } from "@apollo/client";
-import { ApolloResponse } from "@/types";
 import { useState } from "react";
 import {
   CREATE_POST,
-  CreatePostType,
   INVALIDATE_POST,
-  InvalidatePostType,
   VALIDATE_POST,
-  ValidatePostType,
 } from "@/api/graphql/mutations";
 import toast from "react-hot-toast";
+import {
+  CreatePostMutation,
+  GetDepartmentsQuery,
+  GetPostsForDashboardQuery,
+  InvalidatePostMutation,
+  ValidatePostMutation,
+} from "@/api/graphql/types";
 
 export default function Posts() {
-  const [posts, setPosts] =
-    useState<ApolloResponse<GetPostsForDashboardType> | null>();
+  const [posts, setPosts] = useState<
+    GetPostsForDashboardQuery["posts"] | null
+  >();
   const [newPostContent, setNewPostContent] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
-  const [departments, setDepartments] =
-    useState<ApolloResponse<GetDepartmentsType> | null>();
+  const [departments, setDepartments] = useState<
+    GetDepartmentsQuery["departments"] | null
+  >();
 
-  useQuery<GetPostsForDashboardType>(GET_POSTS_FOR_DASHBOARD, {
+  useQuery<GetPostsForDashboardQuery>(GET_POSTS_FOR_DASHBOARD, {
     pollInterval: 20000,
     onCompleted: (data) => {
       setPosts(data.posts);
@@ -57,37 +60,39 @@ export default function Posts() {
     },
   });
 
-  useQuery<GetDepartmentsType>(GET_DEPARTMENTS, {
+  useQuery<GetDepartmentsQuery>(GET_DEPARTMENTS, {
     onCompleted: (data) => {
       setDepartments(data.departments);
     },
   });
 
-  const [createPost, { loading }] = useMutation<CreatePostType>(CREATE_POST, {
-    variables: {
-      content: newPostContent,
-      department: selectedDepartment,
-      image: "   ",
-    },
-    onCompleted: (data) => {
-      console.log(data);
-      // @ts-expect-error idk
-      setPosts((prev) => [...prev!, data.createPost]);
-    },
-    onError: (error) => {
-      console.error(error);
-      toast.error(error.message);
-    },
-  });
-
-  const [validatePost, { loading: validating }] = useMutation<ValidatePostType>(
-    VALIDATE_POST,
+  const [createPost, { loading }] = useMutation<CreatePostMutation>(
+    CREATE_POST,
     {
+      variables: {
+        content: newPostContent,
+        department: selectedDepartment,
+        image: "   ",
+      },
       onCompleted: (data) => {
         console.log(data);
-        const UpdatedPostId = data.validatePost.id;
+        // @ts-expect-error idk why this is happening
+        setPosts((prev) => [...prev!, data.createPost]);
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error(error.message);
+      },
+    },
+  );
+
+  const [validatePost, { loading: validating }] =
+    useMutation<ValidatePostMutation>(VALIDATE_POST, {
+      onCompleted: (data) => {
+        console.log(data);
+        const UpdatedPostId = data?.validatePost?.id;
         const updatedPosts = posts?.map((post) => {
-          if (post.id === UpdatedPostId) {
+          if (post && post.id === UpdatedPostId) {
             return {
               ...post,
               validated: true,
@@ -102,16 +107,15 @@ export default function Posts() {
         console.error(error);
         toast.error(error.message);
       },
-    },
-  );
+    });
 
   const [invalidatePost, { loading: invalidating }] =
-    useMutation<InvalidatePostType>(INVALIDATE_POST, {
+    useMutation<InvalidatePostMutation>(INVALIDATE_POST, {
       onCompleted: (data) => {
         console.log(data);
-        const UpdatedPostId = data.invalidatePost.id;
+        const UpdatedPostId = data?.invalidatePost?.id;
         const updatedPosts = posts?.map((post) => {
-          if (post.id === UpdatedPostId) {
+          if (post && post.id === UpdatedPostId) {
             return {
               ...post,
               validated: false,
@@ -168,10 +172,12 @@ export default function Posts() {
                 name="department"
                 id="department"
               >
-                <option value="" selected disabled>Select a department</option>
+                <option value="" selected disabled>
+                  Select a department
+                </option>
                 {departments?.map((department) => (
-                  <option key={department.id} value={department.id}>
-                    {department.name}
+                  <option key={department?.id} value={department?.id}>
+                    {department?.name}
                   </option>
                 ))}
               </select>
@@ -207,20 +213,24 @@ export default function Posts() {
             </TableHeader>
             <TableBody>
               {posts?.map((post) => (
-                <TableRow key={post.id}>
-                  <TableCell>{post.id}</TableCell>
+                <TableRow key={post?.id}>
+                  <TableCell>{post?.id}</TableCell>
                   <TableCell>
                     <Checkbox
-                      checked={post.validated}
+                      checked={post?.validated || false}
                       disabled={validating || invalidating}
                       onCheckedChange={() =>
-                        validateOrInvalidatePost(post.id, !post.validated)
+                        validateOrInvalidatePost(
+                          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                          post?.id!,
+                          !post?.validated || false,
+                        )
                       }
                     />
                   </TableCell>
-                  <TableCell>{post.department.name}</TableCell>
-                  <TableCell>{post.content}</TableCell>
-                  <TableCell>{post.author.family_name}</TableCell>
+                  <TableCell>{post?.department?.name}</TableCell>
+                  <TableCell>{post?.content}</TableCell>
+                  <TableCell>{post?.author?.family_name}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

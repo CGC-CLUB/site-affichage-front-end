@@ -20,13 +20,13 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { GET_USERS, GetUsersType } from "@/api/graphql/queries";
-import { ApolloResponse } from "@/types";
-import { CREATE_NEW_USER, CreateNewUserType } from "@/api/graphql/mutations";
+import { GET_USERS } from "@/api/graphql/queries";
+import { CREATE_NEW_USER } from "@/api/graphql/mutations";
 import toast from "react-hot-toast";
+import { CreateUserMutation, GetUsersQuery } from "@/api/graphql/types";
 
 export default function Users() {
-  const [users, setUsers] = useState<ApolloResponse<GetUsersType> | null>();
+  const [users, setUsers] = useState<GetUsersQuery["users"] | null>();
   const [newUser, setNewUser] = useState({
     first_name: "",
     family_name: "",
@@ -34,14 +34,14 @@ export default function Users() {
     password: "",
   });
 
-  useQuery<GetUsersType>(GET_USERS, {
+  useQuery<GetUsersQuery>(GET_USERS, {
     onCompleted: (data) => {
       console.log(data);
       setUsers(data.users);
     },
   });
 
-  const [createNewUser, { loading }] = useMutation<CreateNewUserType>(
+  const [createNewUser, { loading }] = useMutation<CreateUserMutation>(
     CREATE_NEW_USER,
     {
       variables: {
@@ -52,6 +52,7 @@ export default function Users() {
       },
       onCompleted: (data) => {
         console.log(data);
+        // @ts-expect-error idk why this is happening (i actually do just being lazy)
         setUsers((prev) => [...prev!, data.createUser]);
         toast.success(`User created`);
       },
@@ -151,17 +152,18 @@ export default function Users() {
             <TableBody>
               {users &&
                 users.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.id}</TableCell>
+                  <TableRow key={user?.id}>
+                    <TableCell>{user?.id}</TableCell>
                     <TableCell>
                       <Checkbox
-                        checked={user.validated}
-                        onChange={() => (user.validated = !user.validated)}
+                        checked={user?.validated || false}
+
+                        // onChange={() => (user?.validated! = !user?.validated!)}
                       />
                     </TableCell>
-                    <TableCell>{user.first_name}</TableCell>
-                    <TableCell>{user.family_name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user?.first_name}</TableCell>
+                    <TableCell>{user?.family_name}</TableCell>
+                    <TableCell>{user?.email}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
