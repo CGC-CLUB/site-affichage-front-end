@@ -1,4 +1,3 @@
-import { MdPerson } from "react-icons/md";
 import { Outlet } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import { sidebarLinks } from "@/constants";
@@ -9,7 +8,7 @@ export default function DashboardSideBar() {
   return (
     <div className="flex">
       <aside className="sticky top-0 flex h-dvh flex-col items-start justify-start gap-3 bg-white p-3 shadow shadow-black duration-300">
-        <ul className="mt-auto flex w-full flex-col gap-5 duration-300">
+        <ul className="mb-auto mt-auto flex w-full flex-col gap-5 duration-300">
           {sidebarLinks.map((link) => {
             return (
               <li
@@ -23,9 +22,6 @@ export default function DashboardSideBar() {
             );
           })}
         </ul>
-        <div className="mt-auto">
-          <MdPerson size={30} />
-        </div>
       </aside>
       <main className="flex-1 p-3">
         <Outlet />
