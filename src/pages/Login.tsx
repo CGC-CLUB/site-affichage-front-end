@@ -76,7 +76,6 @@ export default function Login() {
           Login
         </Button>
       </form>
-      {JSON.stringify(user)}
     </div>
   );
 }
