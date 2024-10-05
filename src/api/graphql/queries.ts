@@ -61,6 +61,7 @@ export const ME = gql`
       first_name
       family_name
       email
+      role
     }
   }
 `;

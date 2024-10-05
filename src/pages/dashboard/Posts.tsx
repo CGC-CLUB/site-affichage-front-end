@@ -48,7 +48,6 @@ export default function Posts() {
   const [departments, setDepartments] = useState<
     GetDepartmentsQuery["departments"] | null
   >();
-
   useQuery<GetPostsForDashboardQuery>(GET_POSTS_FOR_DASHBOARD, {
     pollInterval: 20000,
     onCompleted: (data) => {
