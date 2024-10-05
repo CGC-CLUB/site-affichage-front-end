@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_POSTS = gql`
-  query GetPosts($departmentId: ID!) {
+  query GetPosts($departmentId: ID) {
     posts(filter: { departmentId: $departmentId, validated: true }) {
       id
       content

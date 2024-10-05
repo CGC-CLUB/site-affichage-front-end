@@ -26,6 +26,9 @@ function App() {
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
+      <span className="fixed left-2 top-2 z-[122222222] rounded-lg bg-red-500 p-3 text-lg font-medium text-white shadow-md shadow-black/30">
+        EXPERIMENTAL
+      </span>
     </div>
   );
 }

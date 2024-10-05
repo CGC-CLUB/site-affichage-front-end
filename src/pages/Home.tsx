@@ -22,7 +22,7 @@ export default function Home() {
 
   useQuery<GetPostsQuery>(GET_POSTS, {
     variables: {
-      departmentId: searchParams.get("departmentId"),
+      departmentId: searchParams.get("departmentId") || null,
     },
     pollInterval: 20000,
     onCompleted: (data) => {
