@@ -67,7 +67,7 @@ export default function Home() {
                             ""
                           )}
                         </span>
-                        {post?.author?.first_name} {"    "}
+                        {post?.author?.first_name}
                       </h1>
                       <p className="text-center text-5xl font-bold leading-[1.4]">
                         {post?.content}
