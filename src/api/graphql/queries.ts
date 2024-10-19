@@ -17,8 +17,8 @@ export const GET_POSTS = gql`
 `;
 
 export const GET_POSTS_FOR_DASHBOARD = gql`
-  query GetPostsForDashboard {
-    posts {
+  query GetPostsForDashboard($authorId: ID) {
+    posts(filter: { authorId: $authorId}) {
       content
       id
       validated

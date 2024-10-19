@@ -24,7 +24,7 @@ import {
   GET_POSTS_FOR_DASHBOARD,
 } from "@/api/graphql/queries";
 import { useMutation, useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   CREATE_POST,
   INVALIDATE_POST,
@@ -38,6 +38,7 @@ import {
   InvalidatePostMutation,
   ValidatePostMutation,
 } from "@/api/graphql/types";
+import { useUser } from "@/store/useUser";
 
 export default function Posts() {
   const [posts, setPosts] = useState<
@@ -48,7 +49,11 @@ export default function Posts() {
   const [departments, setDepartments] = useState<
     GetDepartmentsQuery["departments"] | null
   >();
+  const { user } = useUser();
+  const modalButtonRef = useRef<HTMLButtonElement>(null);
+
   useQuery<GetPostsForDashboardQuery>(GET_POSTS_FOR_DASHBOARD, {
+    variables: user?.role === 'USER' ? { authorId: user.id } : undefined,
     pollInterval: 20000,
     onCompleted: (data) => {
       setPosts(data.posts);
@@ -82,6 +87,8 @@ export default function Posts() {
         console.log(data);
         // @ts-expect-error idk why this is happening
         setPosts((prev) => [...prev!, data.createPost]);
+        toast.success("Post created!");
+        modalButtonRef.current?.click();
       },
       onError: (error) => {
         console.error(error);
@@ -147,7 +154,11 @@ export default function Posts() {
   return (
     <div>
       <Dialog>
-        <DialogTrigger asChild className="absolute right-5 top-5">
+        <DialogTrigger
+          ref={modalButtonRef}
+          asChild
+          className="absolute right-5 top-5"
+        >
           <Button>Add New Post</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
