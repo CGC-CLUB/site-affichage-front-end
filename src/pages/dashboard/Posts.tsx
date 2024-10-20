@@ -54,6 +54,7 @@ export default function Posts() {
   const { user } = useUser();
   const modalButtonRef = useRef<HTMLButtonElement>(null);
 
+  // fix: the returned data should be assigned to the posts state in a useEffect hook
   useQuery<GetPostsForDashboardQuery>(GET_POSTS_FOR_DASHBOARD, {
     variables: user?.role === "USER" ? { authorId: user.id } : undefined,
     pollInterval: 20000,
