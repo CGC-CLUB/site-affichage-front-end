@@ -307,10 +307,11 @@ export type GetPostsQuery = { __typename?: 'Query', posts?: Array<{ __typename?:
 
 export type GetPostsForDashboardQueryVariables = Exact<{
   authorId?: InputMaybe<Scalars['ID']['input']>;
+  chefId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
-export type GetPostsForDashboardQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', content?: string | null, id: string, validated?: boolean | null, createdAt?: any | null, author?: { __typename?: 'User', family_name?: string | null } | null, department?: { __typename?: 'Department', name?: string | null } | null } | null> | null };
+export type GetPostsForDashboardQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', content?: string | null, id: string, validated?: boolean | null, createdAt?: any | null, author?: { __typename?: 'User', family_name?: string | null, role?: Role | null } | null, department?: { __typename?: 'Department', name?: string | null } | null } | null> | null };
 
 export type GetUsersQueryVariables = Exact<{
   email?: InputMaybe<Scalars['String']['input']>;

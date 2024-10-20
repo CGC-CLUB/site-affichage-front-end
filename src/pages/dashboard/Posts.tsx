@@ -36,9 +36,11 @@ import {
   GetDepartmentsQuery,
   GetPostsForDashboardQuery,
   InvalidatePostMutation,
+  Role,
   ValidatePostMutation,
 } from "@/api/graphql/types";
 import { useUser } from "@/store/useUser";
+import RoleChip from "@/components/ui/RoleChip";
 
 export default function Posts() {
   const [posts, setPosts] = useState<
@@ -245,7 +247,10 @@ export default function Posts() {
                   </TableCell>
                   <TableCell>{post?.department?.name}</TableCell>
                   <TableCell>{post?.content}</TableCell>
-                  <TableCell>{post?.author?.family_name}</TableCell>
+                  <TableCell className="flex items-center gap-2">
+                    {post?.author?.family_name}{" "}
+                    <RoleChip role={post?.author?.role as Role} />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

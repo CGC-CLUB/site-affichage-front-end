@@ -17,13 +17,14 @@ export const GET_POSTS = gql`
 `;
 
 export const GET_POSTS_FOR_DASHBOARD = gql`
-  query GetPostsForDashboard($authorId: ID,$chefId: ID) {
-    posts(filter: { authorId: $authorId,chefId:$chefId}) {
+  query GetPostsForDashboard($authorId: ID, $chefId: ID) {
+    posts(filter: { authorId: $authorId, chefId: $chefId }) {
       content
       id
       validated
       author {
         family_name
+        role
       }
       createdAt
       department {
