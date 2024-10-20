@@ -88,8 +88,9 @@ export default function Users() {
       },
       onCompleted: (data) => {
         console.log(data);
-        // @ts-expect-error idk why this is happening (i actually do just being lazy)
-        setUsers((prev) => [...prev!, data.createUser]);
+        setUsers(
+          (prev) => [...prev!, data.createUser] as GetUsersQuery["users"],
+        );
         toast.success(`User created`);
       },
       onError: (error) => {
