@@ -134,11 +134,14 @@ export type Post = {
   department?: Maybe<Department>;
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
+  important?: Maybe<Scalars['Boolean']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   validated?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type PostFilterInput = {
+  authorId?: InputMaybe<Scalars['ID']['input']>;
+  chefId?: InputMaybe<Scalars['ID']['input']>;
   content?: InputMaybe<Scalars['String']['input']>;
   departmentId?: InputMaybe<Scalars['ID']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
@@ -296,18 +299,25 @@ export type LoginTvMutationVariables = Exact<{
 export type LoginTvMutation = { __typename?: 'Mutation', loginTv?: { __typename?: 'TV', id: string, name?: string | null, department?: { __typename?: 'Department', createdAt?: any | null, id: string, name?: string | null } | null } | null };
 
 export type GetPostsQueryVariables = Exact<{
-  departmentId: Scalars['ID']['input'];
+  departmentId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 
 export type GetPostsQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', id: string, content?: string | null, updatedAt?: any | null, createdAt?: any | null, author?: { __typename?: 'User', id: string, first_name?: string | null, role?: Role | null } | null } | null> | null };
 
-export type GetPostsForDashboardQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetPostsForDashboardQueryVariables = Exact<{
+  authorId?: InputMaybe<Scalars['ID']['input']>;
+}>;
 
 
 export type GetPostsForDashboardQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', content?: string | null, id: string, validated?: boolean | null, createdAt?: any | null, author?: { __typename?: 'User', family_name?: string | null } | null, department?: { __typename?: 'Department', name?: string | null } | null } | null> | null };
 
-export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetUsersQueryVariables = Exact<{
+  email?: InputMaybe<Scalars['String']['input']>;
+  first_name?: InputMaybe<Scalars['String']['input']>;
+  family_name?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+}>;
 
 
 export type GetUsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, first_name?: string | null, family_name?: string | null, email?: string | null, validated?: boolean | null } | null> | null };

@@ -17,8 +17,8 @@ export const GET_POSTS = gql`
 `;
 
 export const GET_POSTS_FOR_DASHBOARD = gql`
-  query GetPostsForDashboard($authorId: ID) {
-    posts(filter: { authorId: $authorId}) {
+  query GetPostsForDashboard($authorId: ID,$chefId: ID) {
+    posts(filter: { authorId: $authorId,chefId:$chefId}) {
       content
       id
       validated
@@ -34,8 +34,20 @@ export const GET_POSTS_FOR_DASHBOARD = gql`
 `;
 
 export const GET_USERS = gql`
-  query GetUsers {
-    users {
+  query GetUsers(
+    $email: String
+    $first_name: String
+    $family_name: String
+    $id: ID
+  ) {
+    users(
+      filter: {
+        email: $email
+        first_name: $first_name
+        family_name: $family_name
+        id: $id
+      }
+    ) {
       id
       first_name
       family_name

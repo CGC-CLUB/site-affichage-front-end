@@ -53,7 +53,7 @@ export default function Posts() {
   const modalButtonRef = useRef<HTMLButtonElement>(null);
 
   useQuery<GetPostsForDashboardQuery>(GET_POSTS_FOR_DASHBOARD, {
-    variables: user?.role === 'USER' ? { authorId: user.id } : undefined,
+    variables: user?.role === "USER" ? { authorId: user.id } : undefined,
     pollInterval: 20000,
     onCompleted: (data) => {
       setPosts(data.posts);

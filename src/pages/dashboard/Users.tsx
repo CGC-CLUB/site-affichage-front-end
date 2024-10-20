@@ -42,8 +42,20 @@ export default function Users() {
     email: "",
     password: "",
   });
+  const [filters, setFilters] = useState({
+    email: "",
+    first_name: "",
+    family_name: "",
+    id: "",
+  });
 
-  useQuery<GetUsersQuery>(GET_USERS, {
+  const { refetch } = useQuery<GetUsersQuery>(GET_USERS, {
+    variables: {
+      email: filters.email ?? null,
+      first_name: filters.first_name ?? null,
+      family_name: filters.family_name ?? null,
+      id: filters.id ?? null,
+    },
     onCompleted: (data) => {
       console.log(data);
       setUsers(data.users);
@@ -195,6 +207,68 @@ export default function Users() {
           <DialogFooter>
             <Button disabled={loading} onClick={() => createNewUser()}>
               Add
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog>
+        <DialogTrigger asChild className="right-15 absolute top-5">
+          <Button>User Filters</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>
+              Filter Users{"  "}
+              <span className="rounded-lg bg-red-600 p-1 text-white">
+                Experimental
+              </span>
+            </DialogTitle>
+            <DialogDescription>
+              passing one or more is OK for the filter to work
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="first_name_filter">First Name</Label>
+              <Input
+                id="first_name_filter"
+                onChange={(e) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    first_name: e.target.value,
+                  }))
+                }
+                className="border border-slate-400"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="Family_name_filters">Family Name</Label>
+              <Input
+                id="Family_name_filters"
+                onChange={(e) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    family_name: e.target.value,
+                  }))
+                }
+                className="border border-slate-400"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email_filters">Email</Label>
+              <Input
+                id="email_filters"
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, email: e.target.value }))
+                }
+                className="border border-slate-400"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button disabled={loading} onClick={() => refetch()}>
+              Filter
             </Button>
           </DialogFooter>
         </DialogContent>
