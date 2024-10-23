@@ -91,3 +91,15 @@ export const GET_DEPARTMENT_FOR_DASHBOARD = gql`
     }
   }
 `;
+
+export const GET_USERS_FOR_DASHBOARD = gql`
+  query GetUsersForDashboard {
+    users {
+      id
+      first_name
+      family_name
+      email
+      role
+    }
+  }
+`;

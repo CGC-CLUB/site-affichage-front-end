@@ -298,6 +298,14 @@ export type LoginTvMutationVariables = Exact<{
 
 export type LoginTvMutation = { __typename?: 'Mutation', loginTv?: { __typename?: 'TV', id: string, name?: string | null, department?: { __typename?: 'Department', createdAt?: any | null, id: string, name?: string | null } | null } | null };
 
+export type CreateDepartmentMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  chefId: Scalars['String']['input'];
+}>;
+
+
+export type CreateDepartmentMutation = { __typename?: 'Mutation', createDepartment?: { __typename?: 'Department', id: string, name?: string | null, chef?: { __typename?: 'User', id: string, first_name?: string | null, family_name?: string | null } | null } | null };
+
 export type GetPostsQueryVariables = Exact<{
   departmentId?: InputMaybe<Scalars['ID']['input']>;
 }>;
@@ -337,3 +345,8 @@ export type GetDepartmentForDashboardQueryVariables = Exact<{ [key: string]: nev
 
 
 export type GetDepartmentForDashboardQuery = { __typename?: 'Query', departments?: Array<{ __typename?: 'Department', id: string, name?: string | null, chef?: { __typename?: 'User', first_name?: string | null, id: string } | null } | null> | null };
+
+export type GetUsersForDashboardQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersForDashboardQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, first_name?: string | null, family_name?: string | null, email?: string | null, role?: Role | null } | null> | null };

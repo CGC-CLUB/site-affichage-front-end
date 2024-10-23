@@ -17,15 +17,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { GetDepartmentForDashboardQuery } from "@/api/graphql/types";
-import { useQuery } from "@apollo/client";
-import { GET_DEPARTMENT_FOR_DASHBOARD } from "@/api/graphql/queries";
+import {
+  CreateDepartmentMutation,
+  GetDepartmentForDashboardQuery,
+  GetUsersForDashboardQuery,
+} from "@/api/graphql/types";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  GET_DEPARTMENT_FOR_DASHBOARD,
+  GET_USERS_FOR_DASHBOARD,
+} from "@/api/graphql/queries";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { CREATE_DEPARTMENT } from "@/api/graphql/mutations";
 
 export default function Department() {
   const [departments, setDepartments] =
     useState<GetDepartmentForDashboardQuery["departments"]>();
+  const [name, setName] = useState("");
+  const [chef, setChef] = useState("");
+  const [users, setUsers] = useState<GetUsersForDashboardQuery["users"]>();
 
   useQuery<GetDepartmentForDashboardQuery>(GET_DEPARTMENT_FOR_DASHBOARD, {
     onCompleted: (data) => {
@@ -37,6 +48,43 @@ export default function Department() {
       toast.error(error.message);
     },
   });
+
+  useQuery<GetUsersForDashboardQuery>(GET_USERS_FOR_DASHBOARD, {
+    onCompleted: (data) => {
+      console.log(data);
+      setUsers(data.users);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error(error.message);
+    },
+  });
+
+  const [createDepartment] = useMutation<CreateDepartmentMutation>(
+    CREATE_DEPARTMENT,
+    {
+      variables: {
+        name,
+        chefId:chef,
+      },
+      onCompleted: (data) => {
+        console.log(data);
+        toast.success("Department created!");
+        setDepartments(
+          (prev) =>
+            [
+              ...prev!,
+              data.createDepartment,
+            ] as GetDepartmentForDashboardQuery["departments"],
+        );
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error(error.message);
+      },
+    },
+  );
+
   return (
     <div>
       <Dialog>
@@ -55,21 +103,41 @@ export default function Department() {
               <Label htmlFor="department">Department Name</Label>
               <Input
                 id="department"
+                onChange={(e) => setName(e.target.value)}
                 required
                 className="border border-slate-400"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="chef-department">Chef Department </Label>
+              {/* <Label htmlFor="chef-department">Chef Department </Label>
               <Input
                 id="chef-department"
                 required
                 className="border border-slate-400"
-              />
+              /> */}
+              <select
+                onChange={(e) => {
+                  setChef(e.target.value);
+                  console.log(e.target.value);
+                }}
+                name="department"
+                id="department"
+              >
+                <option value="" selected disabled>
+                  Select a User to be Chef Department
+                </option>
+                {users?.map((user) => (
+                  <option key={user?.id} value={user?.id}>
+                    {user?.first_name}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Save changes</Button>
+            <Button type="button" onClick={() => createDepartment()}>
+              Save changes
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

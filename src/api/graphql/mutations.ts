@@ -101,3 +101,17 @@ export const LOGIN_AS_TV = gql`
     }
   }
 `;
+
+export const CREATE_DEPARTMENT = gql`
+  mutation CreateDepartment($name: String!, $chefId: String!) {
+    createDepartment(input: { name: $name, chef: $chefId }) {
+      id
+      name
+      chef {
+        id
+        first_name
+        family_name
+      }
+    }
+  }
+`;
