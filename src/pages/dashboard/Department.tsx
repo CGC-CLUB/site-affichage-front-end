@@ -30,6 +30,8 @@ import {
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { CREATE_DEPARTMENT } from "@/api/graphql/mutations";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal } from "lucide-react";
 
 export default function Department() {
   const [departments, setDepartments] =
@@ -65,7 +67,7 @@ export default function Department() {
     {
       variables: {
         name,
-        chefId:chef,
+        chefId: chef,
       },
       onCompleted: (data) => {
         console.log(data);
@@ -109,17 +111,12 @@ export default function Department() {
               />
             </div>
             <div className="space-y-2">
-              {/* <Label htmlFor="chef-department">Chef Department </Label>
-              <Input
-                id="chef-department"
-                required
-                className="border border-slate-400"
-              /> */}
               <select
                 onChange={(e) => {
                   setChef(e.target.value);
                   console.log(e.target.value);
                 }}
+                className="bg-transparent px-3 py-2"
                 name="department"
                 id="department"
               >
@@ -133,6 +130,13 @@ export default function Department() {
                 ))}
               </select>
             </div>
+            <Alert variant="destructive">
+              <Terminal className="h-4 w-4" />
+              <AlertTitle>Heads up!</AlertTitle>
+              <AlertDescription>
+                The User You Pick will automatically have a chef Role.
+              </AlertDescription>
+            </Alert>
           </div>
           <DialogFooter>
             <Button type="button" onClick={() => createDepartment()}>

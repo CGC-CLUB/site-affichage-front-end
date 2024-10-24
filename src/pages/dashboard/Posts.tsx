@@ -188,6 +188,7 @@ export default function Posts() {
                   console.log(e.target.value);
                 }}
                 name="department"
+                className="bg-transparent px-3 py-2"
                 id="department"
               >
                 <option value="" selected disabled>
