@@ -54,6 +54,7 @@ export const GET_USERS = gql`
       family_name
       email
       validated
+      role
     }
   }
 `;

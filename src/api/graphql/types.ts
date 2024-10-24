@@ -242,7 +242,7 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost?: { __typename?: 'Post', content?: string | null, id: string, validated?: boolean | null, createdAt?: any | null, author?: { __typename?: 'User', family_name?: string | null } | null, department?: { __typename?: 'Department', name?: string | null } | null } | null };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost?: { __typename?: 'Post', content?: string | null, id: string, validated?: boolean | null, createdAt?: any | null, author?: { __typename?: 'User', family_name?: string | null, role?: Role | null } | null, department?: { __typename?: 'Department', name?: string | null } | null } | null };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -274,7 +274,7 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'User', id: string, first_name?: string | null, family_name?: string | null, email?: string | null, validated?: boolean | null } | null };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'User', id: string, first_name?: string | null, family_name?: string | null, email?: string | null, validated?: boolean | null, role?: Role | null } | null };
 
 export type ValidateUserMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -329,7 +329,7 @@ export type GetUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, first_name?: string | null, family_name?: string | null, email?: string | null, validated?: boolean | null } | null> | null };
+export type GetUsersQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id: string, first_name?: string | null, family_name?: string | null, email?: string | null, validated?: boolean | null, role?: Role | null } | null> | null };
 
 export type GetDepartmentsQueryVariables = Exact<{ [key: string]: never; }>;
 

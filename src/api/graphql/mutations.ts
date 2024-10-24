@@ -8,6 +8,7 @@ export const CREATE_POST = gql`
       validated
       author {
         family_name
+        role
       }
       createdAt
       department {
@@ -68,6 +69,7 @@ export const CREATE_NEW_USER = gql`
       family_name
       email
       validated
+      role
     }
   }
 `;

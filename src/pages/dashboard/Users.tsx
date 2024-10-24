@@ -33,6 +33,7 @@ import {
   InvalidateUserMutation,
   ValidateUserMutation,
 } from "@/api/graphql/types";
+import RoleChip, { Role } from "@/components/ui/RoleChip";
 
 export default function Users() {
   const [users, setUsers] = useState<GetUsersQuery["users"] | null>();
@@ -310,7 +311,9 @@ export default function Users() {
                         }
                       />
                     </TableCell>
-                    <TableCell>{user?.first_name}</TableCell>
+                    <TableCell className="flex items-center gap-2">
+                      {user?.first_name} <RoleChip role={user?.role as Role} />
+                    </TableCell>
                     <TableCell>{user?.family_name}</TableCell>
                     <TableCell>{user?.email}</TableCell>
                   </TableRow>
