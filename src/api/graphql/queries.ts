@@ -5,7 +5,6 @@ export const GET_POSTS = gql`
     posts(filter: { departmentId: $departmentId, validated: true }) {
       id
       content
-      updatedAt
       createdAt
       author {
         id
