@@ -1,9 +1,14 @@
 import { Outlet } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import { sidebarLinks } from "@/constants";
+import { useUser } from "@/store/useUser";
 
 export default function DashboardSideBar() {
   const { pathname } = useLocation();
+  const { user } = useUser();
+  if (!user) {
+    window.location.href = "/login";
+  }
 
   return (
     <div className="flex">
