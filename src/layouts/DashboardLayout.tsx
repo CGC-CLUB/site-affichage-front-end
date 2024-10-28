@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import { sidebarLinks } from "@/constants";
 import { useUser } from "@/store/useUser";
+import { IoMdHome } from "react-icons/io";
 
 export default function DashboardSideBar() {
   const { pathname } = useLocation();
@@ -31,6 +32,12 @@ export default function DashboardSideBar() {
       <main className="flex-1 p-3">
         <Outlet />
       </main>
+      <Link
+        to="/"
+        className="fixed bottom-4 right-4 z-50 flex items-center gap-3 rounded-full border border-black/40 bg-white p-3 duration-300"
+      >
+        <IoMdHome size={30} />
+      </Link>
     </div>
   );
 }

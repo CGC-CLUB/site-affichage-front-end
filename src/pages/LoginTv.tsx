@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { IoMdArrowBack } from "react-icons/io";
 
 export default function LoginTv() {
   const [loginInfo, setLoginInfo] = useState({
@@ -32,6 +33,13 @@ export default function LoginTv() {
 
   return (
     <div className="flex h-dvh items-center justify-center">
+      <button
+        className="fixed left-4 top-4 flex items-center gap-3"
+        onClick={() => navigate(-1)}
+      >
+        <IoMdArrowBack size={30} />
+        <span className="text-2xl">Back</span>
+      </button>
       <div className="rounded-xl border border-slate-400 p-[30px]">
         <form className="w-[300px] space-y-6">
           <h1 className="text-center text-3xl font-semibold">Login as a TV</h1>
