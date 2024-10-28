@@ -1,31 +1,38 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import DashboardLayout from "./layouts/DashboardLayout";
-import ErrorPage from "./pages/ErrorPage";
-import Posts from "./pages/dashboard/Posts";
-import Users from "./pages/dashboard/Users";
-import Department from "./pages/dashboard/Department";
-import Login from "./pages/Login";
-import { useUser } from "./store/useUser";
-import LoginTv from "./pages/LoginTv";
+import { lazy, Suspense } from "react";
 
 function App() {
-  const { user } = useUser();
-  console.log(user);
+  const Login = lazy(() => import("./pages/Login"));
+  const LoginTv = lazy(() => import("./pages/LoginTv"));
+  const Posts = lazy(() => import("./pages/dashboard/Posts"));
+  const Users = lazy(() => import("./pages/dashboard/Users"));
+  const Department = lazy(() => import("./pages/dashboard/Department"));
+  const Home = lazy(() => import("./pages/Home"));
+  const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+
   return (
     <div>
-      <Routes>
-        <Route index element={<Home />} />
-        <Route element={<DashboardLayout />}>
-          <Route path="/dashboard/posts" element={<Posts />} />
-          <Route path="/dashboard/users" element={<Users />} />
-          <Route path="/dashboard/departments" element={<Department />} />
-        </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/login-tv" element={<LoginTv />} />
+      <Suspense
+        fallback={
+          <div className="flex h-dvh items-center justify-center text-5xl">
+            Loading...
+          </div>
+        }
+      >
+        <Routes>
+          <Route index element={<Home />} />
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard/posts" element={<Posts />} />
+            <Route path="/dashboard/users" element={<Users />} />
+            <Route path="/dashboard/departments" element={<Department />} />
+          </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/login-tv" element={<LoginTv />} />
 
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
